@@ -120,3 +120,7 @@ mljarsupervised:
     mode: "Compete"   # set mode for Compete, default mode is Explain
 #    algorithms: ["Baseline"]
 #    _save_artifacts: True
+
+MindsDB:
+  version: '2.1.2'
+  project: https://github.com/mindsdb/mindsdb
