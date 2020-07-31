@@ -28,6 +28,7 @@ def run(dataset, config):
 
     # test
     # result = 
+    mdb.predict(when=dataset.test.y_enc)
 
     # return 
 
