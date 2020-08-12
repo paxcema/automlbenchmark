@@ -21,7 +21,10 @@ def run(dataset, config):
     queries = X_test
 
     predictor = Predictor(name="MindsDB")
-    predictor.learn(from_data=X_train, to_predict=target)
+    predictor.learn(from_data=X_train,
+                    to_predict=target,
+                    stop_training_in_x_seconds=config.max_runtime_seconds,
+                    )
 
     predictions = predictor.predict(when_data=queries)
     predictions = [x.explanation for x  in predictions]
