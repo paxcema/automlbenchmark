@@ -9,6 +9,7 @@ def setup(*args, **kwargs):
 
 def run(dataset, config):
     X_train_enc, X_test_enc = impute(dataset.train.X_enc, dataset.test.X_enc)
+
     data = dict(
             target=dict(name=dataset.target.name),
             train=dict(path=dataset.train.path,
