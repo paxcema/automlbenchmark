@@ -13,12 +13,12 @@ def run(dataset, config):
     data = dict(
             target=dict(name=dataset.target.name),
             train=dict(path=dataset.train.path,
-                       X_enc=X_train_enc,
-                       y_enc=dataset.train.y_enc
+                       X=X_train_enc,
+                       y=dataset.train.y_enc
                        ),
             test=dict(path=dataset.test.path,
-                      X_enc=X_test_enc,
-                      y_enc=dataset.test.y_enc
+                      X=X_test_enc,
+                      y=dataset.test.y_enc
                       )
     )
 
