@@ -13,4 +13,5 @@ RAWREPO=$(echo ${REPO} | sed "s/github\.com/raw\.githubusercontent\.com/")
 . $HERE/../shared/setup.sh $HERE
 
 PIP install --no-cache-dir -U -r "${RAWREPO}/${VERSION}/requirements.txt"
-# PIP install --no-cache-dir ${PKG}==${VERSION}
+PIP install --no-cache-dir -U -r arff
+PIP install --no-cache-dir ${PKG}
