@@ -12,6 +12,7 @@ RAWREPO=$(echo ${REPO} | sed "s/github\.com/raw\.githubusercontent\.com/")
 # creating local venv
 . $HERE/../shared/setup.sh $HERE
 
-PIP install --no-cache-dir -U -r "${RAWREPO}/${VERSION}/requirements.txt"
-PIP install --no-cache-dir -U -r arff
+PIP install --no-cache-dir -r "${RAWREPO}/${VERSION}/requirements.txt"
+PIP install --no-cache-dir arff
+PIP install --no-cache-dir openml
 PIP install --no-cache-dir ${PKG}
