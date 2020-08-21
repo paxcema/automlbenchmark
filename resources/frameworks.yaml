@@ -122,5 +122,5 @@ mljarsupervised:
 #    _save_artifacts: True
 
 MindsDB:
-  version: '2.2.1'
+  version: 'latest'
   project: https://github.com/mindsdb/mindsdb
