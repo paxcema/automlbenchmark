@@ -14,9 +14,7 @@ RAWREPO=$(echo ${REPO} | sed "s/github\.com/raw\.githubusercontent\.com/")
 
 PIP install --no-cache-dir -r "${RAWREPO}/${VERSION}/requirements.txt"
 
-# are these two necessary?
-PIP install --no-cache-dir arff
-PIP install --no-cache-dir openml
+# PIP install --no-cache-dir openml
 
 if [[ "$VERSION" == "stable" ]]; then
     PIP install --no-cache-dir ${PKG}
