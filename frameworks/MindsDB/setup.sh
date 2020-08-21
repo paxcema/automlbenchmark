@@ -13,6 +13,14 @@ RAWREPO=$(echo ${REPO} | sed "s/github\.com/raw\.githubusercontent\.com/")
 . $HERE/../shared/setup.sh $HERE
 
 PIP install --no-cache-dir -r "${RAWREPO}/${VERSION}/requirements.txt"
+
+# are these two necessary?
 PIP install --no-cache-dir arff
 PIP install --no-cache-dir openml
-PIP install --no-cache-dir ${PKG}
+
+if [[ "$VERSION" == "stable" ]]; then
+    PIP install --no-cache-dir ${PKG}
+else
+    PIP install --no-cache-dir ${PKG}==${VERSION}
+fi
+
