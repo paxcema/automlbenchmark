@@ -13,8 +13,7 @@ RAWREPO=$(echo ${REPO} | sed "s/github\.com/raw\.githubusercontent\.com/")
 . $HERE/../shared/setup.sh $HERE
 
 PIP install --no-cache-dir -r "${RAWREPO}/${VERSION}/requirements.txt"
-
-# PIP install --no-cache-dir openml
+PIP install --no-cache-dir openml
 
 if [[ "$VERSION" == "stable" ]]; then
     PIP install --no-cache-dir ${PKG}
