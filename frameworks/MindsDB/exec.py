@@ -33,7 +33,9 @@ def run(dataset, config):
 
     predictor = Predictor(name="MindsDB")
     predictor.learn(from_data=X_train, to_predict=target,
-                    stop_training_in_x_seconds=config.max_runtime_seconds)
+                    stop_training_in_x_seconds=config.max_runtime_seconds,
+                    advanced_args={'force_predict': True}
+    )
 
     predictions = predictor.predict(when_data=X_test)
     predictions = [x.explanation for x in predictions]
