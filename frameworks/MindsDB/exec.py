@@ -1,7 +1,3 @@
-import sys
-sys.path.insert(0, '/MindsDB/mindsdb_native')
-sys.path.insert(0, '/MindsDB/lightwood')
-
 import logging
 import pandas as pd
 import numpy as np
