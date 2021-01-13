@@ -1,0 +1,20 @@
+---
+
+- name: dilbert
+  openml_task_id: 168909
+
+- name: Fashion-MNIST
+  openml_task_id: 146825
+
+- name: guillermo
+  openml_task_id: 168337
+
+- name: Helena
+  openml_task_id: 168329
+
+- name: riccardo
+  openml_task_id: 168338
+
+- name: Robert
+  openml_task_id: 168332
+

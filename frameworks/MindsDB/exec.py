@@ -9,8 +9,6 @@ import numpy as np
 from mindsdb import Predictor
 from mindsdb_native.libs.controllers.functional import get_model_data
 
-from lightwood.mixers.nn import NnMixer
-
 from frameworks.shared.callee import call_run, result
 from amlb.results import save_predictions_to_file
 
@@ -38,24 +36,32 @@ def run(dataset, config):
     X_test[target] = y_test
 
     predictor = Predictor(name="MindsDB")
-    predictor.quick_learn(from_data=X_train, 
+    predictor.quick_learn(from_data=X_train,
                           to_predict=target,
                           use_gpu=False,
-                          advanced_args={'use_mixers': NnMixer},
+                          advanced_args={
+                              'use_mixers': 'NnMixer',
+                              'output_class_distribution': True
+                          },
                           stop_training_in_x_seconds=config.max_runtime_seconds)
 
-    preds = predictor.quick_predict(when_data=X_test)
-    preds = np.array(preds[target])
+    results = predictor.predict(when_data=X_test)._data
     truth = X_test[target].values
 
     if is_classification:
         model_data = get_model_data("MindsDB")
+        beliefs = results[f'{target}_class_distribution']
+        idx2cls = results[f'{target}_class_map']
+        cls2idx = {v:k for k, v in idx2cls.items()}
+        print(beliefs)
         classes = sorted(model_data['data_analysis_v2'][target]['histogram']['x'])
-        preds_as_idxs = preds.astype(np.float).astype(np.int)
-        one_hot_matrix = np.eye(len(classes))[preds_as_idxs]
-        preds = pd.DataFrame(np.hstack([one_hot_matrix, preds.reshape(-1, 1)]))
+        print(classes)
+        beliefs = np.array([[b[cls2idx[c]] for c in classes] for b in beliefs])
+        preds = np.array([classes[int(float(i))] for i in results[target]])
+        preds = pd.DataFrame(np.hstack([beliefs, preds.reshape(-1, 1)]))
         preds.columns = classes + ['predictions']
         preds['truth'] = truth
+        print(preds)
         preds.to_csv(config.output_predictions_file, index=False)
 
     else:

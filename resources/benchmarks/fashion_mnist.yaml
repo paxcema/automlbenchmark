@@ -1,0 +1,5 @@
+---
+
+- name: Fashion-MNIST
+  openml_task_id: 146825
+
