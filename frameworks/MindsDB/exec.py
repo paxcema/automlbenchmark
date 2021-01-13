@@ -1,9 +1,15 @@
+import sys
+sys.path.insert(0, '/home/ubuntu/experiments/mindsdb_native')
+sys.path.insert(0, '/home/ubuntu/experiments/lightwood')
+
 import logging
 import pandas as pd
 import numpy as np
 
 from mindsdb import Predictor
 from mindsdb_native.libs.controllers.functional import get_model_data
+
+from lightwood.mixers.nn import NnMixer
 
 from frameworks.shared.callee import call_run, result
 from amlb.results import save_predictions_to_file
@@ -34,6 +40,8 @@ def run(dataset, config):
     predictor = Predictor(name="MindsDB")
     predictor.quick_learn(from_data=X_train, 
                           to_predict=target,
+                          use_gpu=False,
+                          advanced_args={'use_mixers': NnMixer},
                           stop_training_in_x_seconds=config.max_runtime_seconds)
 
     preds = predictor.quick_predict(when_data=X_test)
