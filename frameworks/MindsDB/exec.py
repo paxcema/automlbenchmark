@@ -46,31 +46,30 @@ def run(dataset, config):
                           },
                           stop_training_in_x_seconds=config.max_runtime_seconds)
 
-    results = predictor.predict(when_data=X_test)._data
-    print(results)
+    results = predictor.predict(when_data=X_test)
     truth = X_test[target].values
 
     if is_classification:
         model_data = get_model_data("MindsDB")
         classes = sorted(model_data['data_analysis_v2'][target]['histogram']['x'])
-        preds = np.array([classes[int(float(i))] for i in results[target]])
+        preds = np.array([classes[int(float(i))] for i in results._data[target]])
 
-        if f'{target}_class_map' in results:
-            beliefs = results[f'{target}_class_distribution']
-            idx2cls = results[f'{target}_class_map']
+        if f'{target}_class_distribution' in results._data:
+            beliefs = results._data[f'{target}_class_distribution']
+            idx2cls = results._transaction.lmd['lightwood_data'][f'{target}_class_map']
             cls2idx = {v:k for k, v in idx2cls.items()}
             beliefs = np.array([[b[cls2idx[c]] for c in classes] for b in beliefs])
         else:
             pidxs = preds.astype(np.float).astype(np.int)
             beliefs = np.eye(len(classes))[pidxs]
 
-        print(beliefs)
         preds = pd.DataFrame(np.hstack([beliefs, preds.reshape(-1, 1)]))
         preds.columns = classes + ['predictions']
         preds['truth'] = truth
         preds.to_csv(config.output_predictions_file, index=False)
 
     else:
+        preds = np.array([i for i in results._data[target]])
         save_predictions_to_file(dataset=dataset,
                                  output_file=config.output_predictions_file,
                                  predictions=preds,
