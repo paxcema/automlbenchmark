@@ -41,8 +41,8 @@ def run(dataset, config):
                           to_predict=target,
                           use_gpu=False,
                           advanced_args={
-                              'use_mixers': 'NnMixer',
-                              'output_class_distribution': True
+                              'output_class_distribution': True,
+                              'force_categorical_encoding': [target]
                           },
                           stop_training_in_x_seconds=config.max_runtime_seconds)
 
