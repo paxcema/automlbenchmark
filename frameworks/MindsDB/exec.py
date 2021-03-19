@@ -1,13 +1,16 @@
 import traceback
 import sys
-sys.path.insert(0, '/home/ubuntu/experiments/mindsdb_native')
-sys.path.insert(0, '/home/ubuntu/experiments/lightwood')
+import os
+base_path = '/home/ubuntu/experiments'
+sys.path.insert(0, str(os.path.join(base_path, 'mindsdb_native')))
+sys.path.insert(0, str(os.path.join(base_path, 'lightwood')))
+sys.path.insert(0, str(os.path.join(base_path, 'datasources')))
 
 import logging
 import pandas as pd
 import numpy as np
 
-from mindsdb import Predictor
+from mindsdb_native import Predictor
 from mindsdb_native.libs.controllers.functional import get_model_data
 
 from frameworks.shared.callee import call_run, result
