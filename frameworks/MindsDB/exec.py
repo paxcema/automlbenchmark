@@ -69,14 +69,12 @@ def run(dataset, config):
         preds = pd.DataFrame(np.hstack([beliefs, preds.reshape(-1, 1)]))
         preds.columns = classes + ['predictions']
         preds['truth'] = truth
-        preds.to_csv(config.output_predictions_file, index=False)
 
     else:
-        preds = np.array([i for i in results._data[target]])
-        save_predictions_to_file(dataset=dataset,
-                                 output_file=config.output_predictions_file,
-                                 predictions=preds,
-                                 truth=truth)
+        preds = pd.DataFrame(np.array([(i,j) for i, j in zip(results._data[target],
+                                                             results._data[f'__observed_{target}'])]))
+        preds.columns = ['predictions', 'truth']
+    preds.to_csv(config.output_predictions_file, index=False)
 
     return result()
 
